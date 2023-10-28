@@ -1,0 +1,41 @@
+services:
+  postgres:
+    container_name: postgres
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_DB: ${POSTGRES_DBNAME}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    ports:
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
+    networks:
+      - persistent_bridge_network
+  app:
+    container_name: app
+    image: transaction-api:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - ${APP_PORT}:${APP_PORT}
+    networks:
+      - persistent_bridge_network
+    depends_on:
+      postgres:
+        condition: service_healthy
+volumes:
+  postgres:
+    driver: local
+networks:
+  persistent_bridge_network:
+    driver: bridge
+
