@@ -61,7 +61,7 @@ POST http://localhost:8080/api/v1/transaction/vote
 POST http://localhost:8080/api/v1/transaction/result
 
 {
-    "candidat_id": 1,
+    "candidate_id": 1,
     "votes_count": 1,
 }
 ```
