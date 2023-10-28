@@ -19,6 +19,7 @@ func NewGinTransactionHandler(api *gin.RouterGroup, logger *slog.Logger, reposit
 		logger:     logger.WithGroup("TransactionHandler"),
 		repository: repository,
 	}
+
 	api.POST("/transaction/ballot", handler.AddBallotTransaction)
 	api.POST("/transaction/vote", handler.AddVoteTransaction)
 	api.POST("/transaction/result", handler.AddResultTransaction)
