@@ -12,7 +12,6 @@ import (
 type ginApp struct {
 	logger *slog.Logger
 	router *gin.Engine
-	srv    *http.Server
 }
 
 func NewGinApp(repository repository.TransactionRepository, logger *slog.Logger) App {
